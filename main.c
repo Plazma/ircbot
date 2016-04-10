@@ -18,19 +18,24 @@ void event_numeric(irc_session_t *session, unsigned int event, const char *origi
     //placeholder
 }
 
-irc_callbacks_t callbacks;
+int main(void)
+{
+    irc_callbacks_t callbacks;
 
-memset( &callbacks, 0 sizeof(callbacks) );
+    memset( &callbacks, 0, sizeof(callbacks) );
 
-callbacks.event_connect = on_connect;
-callbacks.event_numeric = event_numeric;
+    callbacks.event_connect = on_connect;
+    callbacks.event_numeric = event_numeric;
 
-irc_session_t *session = irc_create_session( &callbacks );
+    irc_session_t *session = irc_create_session( &callbacks );
 
-if(!session) {
-    g_printf("\n\n*** CANNOT CONNECT TO SESSION ***\n\n");
-    exit(1);
- }
+    if(!session)
+    {
+        g_printf("\n\n*** CANNOT CONNECT TO SESSION ***\n\n");
+        exit(1);
+    }
+
+}
 
 
 
