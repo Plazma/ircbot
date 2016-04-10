@@ -5,12 +5,35 @@
 #include <glib.h>
 #include <glib/gstring.h>
 #include <glib/gprintf.h>
+#include <string.h>
 
-int main(void)
+void on_connect(irc_session_t *session, const char *event, const char *origin, const char **params, unsigned int count)
 {
-    g_printf("Haiiii\n\n\n");
-    return 0;
+    //placeholder
 }
+
+
+void event_numeric(irc_session_t *session, unsigned int event, const char *origin, const char **params, unsigned int count)
+{
+    //placeholder
+}
+
+irc_callbacks_t callbacks;
+
+memset( &callbacks, 0 sizeof(callbacks) );
+
+callbacks.event_connect = on_connect;
+callbacks.event_numeric = event_numeric;
+
+irc_session_t *session = irc_create_session( &callbacks );
+
+if(!session) {
+    g_printf("\n\n*** CANNOT CONNECT TO SESSION ***\n\n");
+    exit(1);
+ }
+
+
+
 
 
 
