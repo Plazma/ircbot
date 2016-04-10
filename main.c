@@ -9,7 +9,7 @@
 
 void on_connect(irc_session_t *session, const char *event, const char *origin, const char **params, unsigned int count)
 {
-    //placeholder
+    g_printf("\n\n*** RAWR I AM CONNECTED TO IRC!!! ***\n\n");
 }
 
 
@@ -34,6 +34,17 @@ int main(void)
         g_printf("\n\n*** CANNOT CONNECT TO SESSION ***\n\n");
         exit(1);
     }
+
+    if(irc_connect (session, "chat.freenode.net", 6667, 0, "Fanger", "Fanger", "Fanger"))
+        {
+            // fart
+        }
+
+    if( irc_run(session) )
+        {
+        }
+
+            
 
 }
 
