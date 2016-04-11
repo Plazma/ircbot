@@ -18,6 +18,22 @@ void event_numeric(irc_session_t *session, unsigned int event, const char *origi
     //placeholder
 }
 
+void dump_event(irc_session_t *session, const char *event, const char *origin, const char **params, unsigned int count)
+{
+    char buf[512];
+    int cnt = 0;
+
+    buf[0] = '\0';
+
+    for(cnt=0; cnt<count; cnt++)
+    {
+        if(cnt)
+            strcat(buf, "|");
+
+        strcat(buf, params[cnt]);
+    }
+}
+
 int main(void)
 {
     irc_callbacks_t callbacks;
@@ -36,13 +52,13 @@ int main(void)
     }
 
     if(irc_connect (session, "chat.freenode.net", 6667, 0, "Fanger", "Fanger", "Fanger"))
-        {
+    {
             // fart
-        }
+    }
 
     if( irc_run(session) )
-        {
-        }
+    {
+    }
 
             
 
