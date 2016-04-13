@@ -10,6 +10,7 @@
 void on_connect(irc_session_t *session, const char *event, const char *origin, const char **params, unsigned int count)
 {
     g_printf("\n\n*** RAWR I AM CONNECTED TO IRC!!! ***\n\n");
+    irc_cmd_join(session, "##plazma", NULL);
 }
 
 
@@ -34,6 +35,11 @@ void dump_event(irc_session_t *session, const char *event, const char *origin, c
     }
 }
 
+void on_join(irc_session_t *session, const char *event, const char *origin, const char **params, unsigned int count)
+{
+    irc_cmd_msg(session, params[0], "HEEEEEEYYYYYYYY GGGGGUUUUUUUUUURRRRRRRRRLLLLLLL");
+}
+
 int main(void)
 {
     irc_callbacks_t callbacks;
@@ -42,6 +48,7 @@ int main(void)
 
     callbacks.event_connect = on_connect;
     callbacks.event_numeric = event_numeric;
+    callbacks.event_join = on_join;
 
     irc_session_t *session = irc_create_session( &callbacks );
 
@@ -53,11 +60,12 @@ int main(void)
 
     if(irc_connect (session, "chat.freenode.net", 6667, 0, "Fanger", "Fanger", "Fanger"))
     {
-            // fart
+        
     }
 
     if( irc_run(session) )
     {
+       
     }
 
             
