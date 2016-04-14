@@ -9,7 +9,8 @@
 
 void on_connect(irc_session_t *session, const char *event, const char *origin, const char **params, unsigned int count)
 {
-    g_printf("\n\n*** RAWR I AM CONNECTED TO IRC!!! ***\n\n");
+    // Code to display connecting to server
+    g_printf("Connected to %s!\n", origin);
     irc_cmd_join(session, "##plazma", NULL);
 }
 
@@ -37,7 +38,17 @@ void dump_event(irc_session_t *session, const char *event, const char *origin, c
 
 void on_join(irc_session_t *session, const char *event, const char *origin, const char **params, unsigned int count)
 {
-    irc_cmd_msg(session, params[0], "HEEEEEEYYYYYYYY GGGGGUUUUUUUUUURRRRRRRRRLLLLLLL");
+    g_printf("< %s > joined channel: %s\n", origin, params[0]);
+}
+
+void event_channel(irc_session_t *session, const char *event, const char *origin, const char **params, unsigned int count)
+{
+    // params[0][0] = Channel
+    // params[0][1] = user message
+    // origin = nick who sent it
+    
+    g_printf("< %s > %s\n", origin, params[1] );
+    
 }
 
 int main(void)
@@ -49,26 +60,31 @@ int main(void)
     callbacks.event_connect = on_connect;
     callbacks.event_numeric = event_numeric;
     callbacks.event_join = on_join;
+    callbacks.event_channel = event_channel;
 
     irc_session_t *session = irc_create_session( &callbacks );
 
     if(!session)
     {
-        g_printf("\n\n*** CANNOT CONNECT TO SESSION ***\n\n");
+        g_printf("\n\n*** CANNOT CONNECT TO IRC SESSION ***\n\n");
         exit(1);
     }
 
+    g_printf("Connecting to server...\n");
+    
     if(irc_connect (session, "chat.freenode.net", 6667, 0, "Fanger", "Fanger", "Fanger"))
     {
-        
+        // handle errors
     }
 
-    if( irc_run(session) )
+    if(irc_run(session) )
     {
-       
+        // handle errors
     }
 
-            
+    
+    // say stuff
+    // do coller things like prase messages
 
 }
 
