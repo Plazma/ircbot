@@ -6,7 +6,7 @@ SOURCES     := main.c
 
 all: ircbot
 
-ircbot:
+ircbot: $(SOURCES)
 	$(CC) $(CFLAGS) $(INCLUDES) $(SOURCES) $(LFLAGS)
 
 clean:
