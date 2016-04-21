@@ -13,12 +13,13 @@ int wordCount (const char *string)
     int i = 0;
     int wc = 0;
 
-    for(i=0; string[i] != '\0'; i++)
+    for(i=0;  string[i] != '\0'; i++)
     {
         if(string[i] == ' ')
             wc++;
     }
 
+    // libircclient indexes at 1, so add one to keep in alignment with what libircclient expects
     return wc;
 
 }
@@ -54,18 +55,17 @@ void event_channel(irc_session_t *session, const char *event, const char *origin
     g_printf("< %s > %s\n", origin, params[1] );
 
     //parseMsg(params[11]);
-    int wordNum = wordCount(params[1]);
-    int i = 0;
+    // int wordNum = wordCount(params[1]);
+    // int i = 0;
 
-    for(i = 0; i<wordNum; i++)
-    {
+    //DEBUG  print # of words
+    // g_printf("Last msg has %d words\n", wordNum);
+
          // compare words in string, to see if it matches
-         if(strcmp("fuck", params[wordNum]) == 0)
-         {
-              irc_cmd_msg(session, params[0], "Watch your fucking mouth!\n");
-         }
-    } 
-
+     if(strncmp("fuck", params[1],4) == 0)
+     {
+          irc_cmd_msg(session, params[0], "Watch your fucking mouth!\n");
+     }
 
 }
 
