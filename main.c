@@ -27,6 +27,8 @@ void on_connect(irc_session_t *session, const char *event, const char *origin, c
 {
     // Code to display connecting to server
     g_printf("Connected to %s!\n", origin);
+    irc_cmd_join(session, "##plazma", 0);
+
     
 }
 
@@ -52,7 +54,6 @@ void event_channel(irc_session_t *session, const char *event, const char *origin
     g_printf("< %s > %s\n", origin, params[1] );
 
     //parseMsg(params[11]);
-
     int wordNum = wordCount(params[1]);
     int i = 0;
 
@@ -64,6 +65,8 @@ void event_channel(irc_session_t *session, const char *event, const char *origin
               irc_cmd_msg(session, params[0], "Watch your fucking mouth!\n");
          }
     } 
+
+
 }
 
 
@@ -95,9 +98,7 @@ int main(void)
         // handle errors
     }
 
-    if(irc_is_connected(session) )
-        irc_cmd_join(session, "##plazma", NULL);
-
+   
     //Event Loop Start
     if(irc_run(session) )
     {
