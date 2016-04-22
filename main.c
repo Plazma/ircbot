@@ -51,21 +51,19 @@ void event_channel(irc_session_t *session, const char *event, const char *origin
     // params[0][0] = Channel
     // params[0][1] = user message
     // origin = nick who sent it
+
+    int wc = wordCount(params[1]);
     
-    g_printf("< %s > %s\n", origin, params[1] );
+    g_printf("<%s>: %s\n", origin, params[1] );
 
-    //parseMsg(params[11]);
-    // int wordNum = wordCount(params[1]);
-    // int i = 0;
+    /* NOTES 
+       - Larger control loop based on word count
+        o for each word, iterate through a pointer until space
+        o when pointer hits a space, thats a 'word'
+        o compare that 'word' to the word fuck' 
+            o if it is, then send a message to channel
+    */
 
-    //DEBUG  print # of words
-    // g_printf("Last msg has %d words\n", wordNum);
-
-         // compare words in string, to see if it matches
-     if(strncmp("fuck", params[1],4) == 0)
-     {
-          irc_cmd_msg(session, params[0], "Watch your fucking mouth!\n");
-     }
 
 }
 
@@ -93,7 +91,7 @@ int main(void)
 
     g_printf("Connecting to server...\n");
     
-    if(irc_connect (session, "chat.freenode.net", 6667, 0, "Fanger", "Fanger", "Fanger"))
+    if(irc_connect (session, "adams.freenode.net", 6667, 0, "Fanger", "Fanger", "Fanger"))
     {
         // handle errors
     }
