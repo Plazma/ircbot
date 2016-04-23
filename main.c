@@ -53,7 +53,31 @@ void event_channel(irc_session_t *session, const char *event, const char *origin
     // origin = nick who sent it
 
     int wc = wordCount(params[1]);
-    
+    int i = 0;
+
+    //ptr to current word 
+    const char *paramptr;
+    const char *cw;
+
+    paramptr = params[1];
+
+    // outer loop for how many words there are
+    for(i=0; i<=wc; i++)
+    {
+         for(cw = paramptr; *paramptr != ' '; paramptr++)
+              ;
+
+         // It either matches or it deosnt'
+         if(strncmp("fuck", cw, 4) == 0)
+         {
+              irc_cmd_msg(session, params[0], "Watch your fucking mouth!\n");
+              break;
+         }
+
+         // move on to next word
+         paramptr++;
+         
+    }
     g_printf("<%s>: %s\n", origin, params[1] );
 
     /* NOTES 
