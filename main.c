@@ -24,11 +24,36 @@ int wordCount (const char *string)
 
 }
 
+int parseWord(const char *word)
+{
+     if(word == NULL)
+          return -1;
+     
+     const char *nonoWords[] = {"fuck", "shit", "nigger", "kike"};
+     int sz_nonoWords = (sizeof(nonoWords) / sizeof(const char *));
+
+     int i = 0;
+
+     for(i = 0; i<sz_nonoWords; i++)
+     {
+          if(strcmp(nonoWords[i], word) == 0)
+          {
+               
+               return 1;
+          }
+     }   
+
+     return 0;
+}
+  
+
+
 void on_connect(irc_session_t *session, const char *event, const char *origin, const char **params, unsigned int count)
 {
     // Code to display connecting to server
     g_printf("Connected to %s!\n", origin);
     irc_cmd_join(session, "##plazma", 0);
+    g_printf("Joining channel ##plazma\n");
 
     
 }
@@ -58,39 +83,36 @@ void event_channel(irc_session_t *session, const char *event, const char *origin
     //ptr to current word 
     const char *paramptr;
     const char *cw;
+    char nickbuf[129];
+
+    // Get nick into nickbuf
+    irc_target_get_nick(origin, nickbuf, 128);
 
     paramptr = params[1];
 
     // outer loop for how many words there are
     for(i=0; i<=wc; i++)
     {
+         // Inner loop to get one word at a time
          for(cw = paramptr; *paramptr != ' '; paramptr++)
               ;
 
          // It either matches or it deosnt'
-         if(strncmp("fuck", cw, 4) == 0)
+         if(parseWord(cw))
          {
+              g_printf("<ME>: Watch your fucking mouth!\n");
               irc_cmd_msg(session, params[0], "Watch your fucking mouth!\n");
               break;
          }
-
+         
          // move on to next word
          paramptr++;
          
     }
-    g_printf("<%s>: %s\n", origin, params[1] );
+    g_printf("<%s>: %s\n", nickbuf, params[1] );
 
-    /* NOTES 
-       - Larger control loop based on word count
-        o for each word, iterate through a pointer until space
-        o when pointer hits a space, thats a 'word'
-        o compare that 'word' to the word fuck' 
-            o if it is, then send a message to channel
-    */
-
-
+  
 }
-
 
 
 int main(void)
