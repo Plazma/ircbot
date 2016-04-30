@@ -7,6 +7,11 @@
 #include <glib/gprintf.h>
 #include <string.h>
 
+void consolePrint(const char **string)
+{
+
+}
+
 // move to utils.c and make smarter.
 int wordCount (const char *string)
 {
@@ -30,6 +35,7 @@ int parseWord(const char *word)
           return -1;
      
      const char *nonoWords[] = {"fuck", "shit", "nigger", "kike"};
+    
      int sz_nonoWords = (sizeof(nonoWords) / sizeof(const char *));
 
      int i = 0;
@@ -44,6 +50,74 @@ int parseWord(const char *word)
      }   
 
      return 0;
+}
+
+int parseCmd(const char *nick, const char *cmd)
+{
+     if(nick == NULL || cmd == NULL)
+          return -1;
+     
+     int i = 0;
+     int authorized = 0;
+     const char *cmdptr;
+     
+     const char *authUsers = {"plazma"};
+     size_t sz_authUsers = (sizeof(authUsers) / sizeof (const char *));
+                            
+     const char *commands = {"quit", "bacon", "beer", "stab", "dickpunch", "cuntstab"};
+     size_t sz_commands = (sizeof(commands) / sizeof(const char *));
+     char nickbuf[128];
+
+     //check for authoirzed users
+     for(i=0; i<sz_authUsers; i++)
+     {
+          // See if user is authorized
+          if(!strcmp(authUsers[i], nick))
+          {
+               authorized = 1;
+               break;
+          }
+             
+     }
+
+     // first character of command should be @
+     if(cmd[0] != '@')
+          return -1;
+
+     cmdptr = cmd[1];
+
+     // get cmdptr to the end of the word starting after the @
+     for(cmdptr = cmd[1]; cmdptr != '\0'; cmdptr++)
+          ;;
+
+     // go through commands
+     for(i=0; i<sz_commands; i++)
+     {
+          // it's a valid command
+          if(strcmp(commands[i], cmdptr) == 0)
+          {
+               
+              if(strcmp(cmdptr, "quit") == 0 && authorized == 1)
+              {
+               // command to display bye
+               // command to quit
+              }
+              else if(strcmp(cmdptr, "quit") == 0 && authorized == 0)
+              {
+               // command to display fuck you not authorized
+              }
+              else if(strcmp(cmdptr, "beer") == 0)
+              {
+                   // display command to console
+                   // irc send cmd gives "user" a beer"
+              }
+                                
+          }
+          
+     }
+
+     
+     
 }
   
 
